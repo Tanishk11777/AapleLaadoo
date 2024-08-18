@@ -1,4 +1,4 @@
-name: fdah
+name: AapleLaadoo
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -36,6 +36,13 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_svg: ^1.1.0
+  line_awesome_flutter: ^3.0.1
+  get: ^4.6.6
+  firebase_auth: ^5.1.2
+  firebase_core: ^3.2.0
+  google_maps_flutter: ^2.7.0
+  google_maps_flutter_web: ^0.5.8
+  location: ^7.0.0
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +59,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
+
 flutter:
 
   # The following line ensures that the Material Icons font is

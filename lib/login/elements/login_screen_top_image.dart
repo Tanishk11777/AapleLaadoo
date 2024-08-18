@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fdah/constants.dart';
+import 'package:AapleLaadoo/constants.dart';
 
 class LoginScreenTopImage extends StatelessWidget {
   const LoginScreenTopImage({super.key});
@@ -9,7 +9,7 @@ class LoginScreenTopImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text("LOGIN", style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.black38), textAlign: TextAlign.center,),
+        Text("LOGIN", style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.black38), textAlign: TextAlign.center,),
         const SizedBox(height: defaultPadding),
         Row(
           children: [

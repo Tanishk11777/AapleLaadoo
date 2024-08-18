@@ -1,4 +1,4 @@
-import 'package:fdah/constants.dart';
+import 'package:AapleLaadoo/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -9,8 +9,8 @@ class StartImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text("Welcome to FDAH",
-          style: Theme.of(context).textTheme.headline4!.copyWith(
+        Text("Welcome to AapleLaadoo",
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
@@ -20,9 +20,9 @@ class StartImage extends StatelessWidget {
           children: [
             Spacer(),
             Container(
-              width: 300,
-              height: 300,
-              child: SvgPicture.asset("assets/start.svg"),
+              width: 350,
+              height: 350,
+              child: Image.asset("assets/logo.png"),
             ),
             Spacer(),
           ],

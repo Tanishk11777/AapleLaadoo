@@ -1,8 +1,8 @@
-import 'package:fdah/components/background.dart';
-import 'package:fdah/responsive.dart';
+import 'package:AapleLaadoo/components/background.dart';
+import 'package:AapleLaadoo/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:fdah/start/elements/loginImage.dart';
-import 'package:fdah/start/elements/loginBtn.dart';
+import 'package:AapleLaadoo/start/elements/loginImage.dart';
+import 'package:AapleLaadoo/start/elements/loginBtn.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({super.key});

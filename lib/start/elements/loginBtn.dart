@@ -1,6 +1,7 @@
-import 'package:fdah/login/login_screen.dart';
+import 'package:AapleLaadoo/login/login_screen.dart';
+import 'package:AapleLaadoo/signup/signup_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:fdah/constants.dart';
+import 'package:AapleLaadoo/constants.dart';
 
 class LoginSignupBtn extends StatelessWidget {
   const LoginSignupBtn({super.key});
@@ -21,7 +22,9 @@ class LoginSignupBtn extends StatelessWidget {
             backgroundColor: kPrimaryLightColour,
             elevation: 0,
           ),
-          onPressed: (){},
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context){return SignUpScreen();}));
+          },
           child: Text("Sign Up".toUpperCase(),style: TextStyle(color: Colors.black),),
         )),
       ],
