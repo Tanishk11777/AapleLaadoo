@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "52877239156",
+    "project_id": "aaplelaadoo-3510d",
+    "storage_bucket": "aaplelaadoo-3510d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52877239156:android:54b4cc3059c45b9c234221",
+        "android_client_info": {
+          "package_name": "com.example.AapleLaadoo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfbtOZE8eq06_N-GjSsPjItEbf2uaYX3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
