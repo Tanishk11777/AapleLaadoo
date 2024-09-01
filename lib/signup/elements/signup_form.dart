@@ -1,3 +1,4 @@
+import 'package:AapleLaadoo/start/startview.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:AapleLaadoo/components/registredcheck.dart';
@@ -39,6 +40,30 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
+  void _showSuccessDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Success'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const StartPage(),
+                ),
+              );
+            },
+            child: const Text('Okay'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _signUpWithEmailAndPassword() async {
     setState(() {
       _isLoading = true;
@@ -50,12 +75,17 @@ class _SignUpFormState extends State<SignUpForm> {
         password: _passwordController.text,
       );
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomePage(),
-        ),
-      );
+      if (userCredential.user != null && !userCredential.user!.emailVerified) {
+        await userCredential.user!.sendEmailVerification();
+        _showSuccessDialog('A verification email has been sent. Please check your email.');
+      }
+
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => const HomePage(),
+      //   ),
+      // );
     } on FirebaseAuthException catch (e) {
       String errorMessage;
       if (e.code == 'weak-password') {
@@ -121,19 +151,23 @@ class _SignUpFormState extends State<SignUpForm> {
               },
               decoration: InputDecoration(
                 hintText: "Your password",
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(defaultPadding),
-                  child: const Icon(Icons.lock),
+                prefixIcon: const Padding(
+                  padding: EdgeInsets.all(defaultPadding),
+                  child: Icon(Icons.lock),
                 ),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.only(right: defaultPadding),
+                  child: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.black38,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    });
-                  },
                 ),
               ),
             ),

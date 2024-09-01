@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:AapleLaadoo/signup/signup_screen.dart';
 import 'package:AapleLaadoo/components/registredcheck.dart';
 import '../../../constants.dart';
+import '../../ForgotPassword/FP_screen.dart';
 import '../../HomePage/homePage.dart';
+import '../../start/startview.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -39,6 +41,30 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
+  void _showSuccessDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Success'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const StartPage(),
+                ),
+              );
+            },
+            child: const Text('Okay'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _signInWithEmailAndPassword() async {
     setState(() {
       _isLoading = true;
@@ -47,14 +73,19 @@ class _LoginFormState extends State<LoginForm> {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return const HomePage();
-          },
-        ),
-      );
+      if (userCredential.user != null && !userCredential.user!.emailVerified) {
+        await userCredential.user!.sendEmailVerification();
+        _showSuccessDialog('A verification email has been sent. Please check your email.');
+      } else if (userCredential.user != null && userCredential.user!.emailVerified) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return const HomePage();
+            },
+          ),
+        );
+      }
     } on FirebaseAuthException catch (e) {
       String errorMessage;
       if (e.code == 'user-not-found') {
@@ -74,7 +105,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   void dispose() {
-    _emailController.dispose(); // Dispose of the controller when the widget is disposed
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -120,19 +151,23 @@ class _LoginFormState extends State<LoginForm> {
               },
               decoration: InputDecoration(
                 hintText: "Your password",
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(defaultPadding),
-                  child: const Icon(Icons.lock),
+                prefixIcon: const Padding(
+                  padding: EdgeInsets.all(defaultPadding),
+                  child: Icon(Icons.lock),
                 ),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.only(right: defaultPadding),
+                  child: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.black38,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    });
-                  },
                 ),
               ),
             ),
@@ -170,8 +205,48 @@ class _LoginFormState extends State<LoginForm> {
               );
             },
           ),
+          const SizedBox(height: 7),
+          ForgotPassword(
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PasswordScreen()),
+              );
+            },
+          ),
         ],
       ),
+    );
+  }
+}
+
+class ForgotPassword extends StatelessWidget {
+  final void Function()? press;
+  const ForgotPassword({
+    Key? key,
+    required this.press,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        const Text(
+          "Forgot Your Password? ",
+          style: TextStyle(color: kPrimaryColour),
+        ),
+        GestureDetector(
+          onTap: press,
+          child: const Text(
+            "Tap here",
+            style: TextStyle(
+              color: kPrimaryColour,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        )
+      ],
     );
   }
 }

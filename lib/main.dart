@@ -7,6 +7,7 @@ import 'package:AapleLaadoo/start/startview.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'HomePage/homePage.dart';
+import 'Login/login_screen.dart';
 
 
 void main() async{
@@ -69,9 +70,13 @@ class Home extends StatelessWidget {
             }
             final user = FirebaseAuth.instance.currentUser;
             if (user != null) {
-              return const HomePage();
-            }else {
-              return const StartPage();
+              if (user.emailVerified) {
+                return const HomePage();
+              } else {
+                return const LoginScreen();  // Redirect to login if email is not verified
+              }
+            } else {
+              return const StartPage();  // Redirect to login if no user is signed in
             }
 
           default:
