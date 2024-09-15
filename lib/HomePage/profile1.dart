@@ -4,9 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-String? getUserEmail(){
+String? getUserEmail() {
   final User? user = _auth.currentUser;
-  if(user != null){
+  if (user != null) {
     return user.email;
   }
   return null;
@@ -168,8 +168,31 @@ class ProfileScreen extends StatelessWidget {
                   text: 'Log Out',
                   icon: LineAwesomeIcons.sign_out_alt_solid,
                   press: () {
-                    _auth.signOut();
-                    Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Confirm Log Out'),
+                          content: const Text('Are you sure you want to log out?'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                _auth.signOut();
+                                Navigator.of(context).pop(); // Close the dialog
+                                Navigator.pop(context); // Return to the previous screen
+                              },
+                              child: const Text('Yes'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                   endIcon: false,
                   color: const Color(0xFFF98167),
@@ -238,7 +261,6 @@ class ProfileMenuWidget extends StatelessWidget {
             size: 16,
           ),
         )
-            : null
-    );
+            : null);
   }
 }

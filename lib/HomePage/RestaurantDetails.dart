@@ -15,45 +15,38 @@ class RestaurantDetails extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          height: 50,
-          decoration: BoxDecoration(
-            color: kPrimaryColour,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                offset: const Offset(0, 10),
-                blurRadius: 50,
-                color: kPrimaryColour.withOpacity(.23),
+          height: 65, // Increase the height here
+          child: Center(
+            child: Container(
+              height: 60, // Increase the height of the button container
+              decoration: BoxDecoration(
+                color: kPrimaryColour,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    offset: const Offset(0, 10),
+                    blurRadius: 50,
+                    color: kPrimaryColour.withOpacity(.23),
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Order Now",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 20,
+              child: const Center(
+                child: Text(
+                  "Order Now",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
                 ),
               ),
-              // const SizedBox(width: 10),
-              // if (value != 0)
-              //   Text(
-              //     "(${value.toString()})",
-              //     style: const TextStyle(
-              //       fontWeight: FontWeight.bold,
-              //       color: Colors.white,
-              //       fontSize: 20,
-              //     ),
-              //   ),
-            ],
+            ),
           ),
         ),
       ),
+
       body: MainScreen(
         index: index,
       ),
@@ -69,7 +62,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var he = MediaQuery.of(context).size;
     return Container(
-      padding: const EdgeInsets.only(top: 50),
+      //padding: const EdgeInsets.only(top: 50),
       height: he.height,
       width: he.width,
       decoration: BoxDecoration(
@@ -353,7 +346,7 @@ class Rating extends StatelessWidget {
           children: [
             const SizedBox(height: 15),
             Text(
-              "${restaurantList[index].price} for one",
+              restaurantList[index].price,
               style: const TextStyle(
                 color: Colors.blueGrey,
                 fontSize: 16,
@@ -361,7 +354,7 @@ class Rating extends StatelessWidget {
               ),
             ),
             Text(
-              "Delivery Time: $deliveryTime min",
+              "Preparation Time: $deliveryTime min",
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 15,

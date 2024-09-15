@@ -86,7 +86,7 @@ class MainHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     var he = MediaQuery.of(context).size;
     return Container(
-      padding: const EdgeInsets.only(top: 50),
+      padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,

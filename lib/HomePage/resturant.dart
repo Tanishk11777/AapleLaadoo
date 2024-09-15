@@ -19,7 +19,7 @@ Widget restaurantAvailable(
     ) {
   var he = MediaQuery.of(context).size;
   return Container(
-    padding: const EdgeInsets.only(top: 50),
+    padding: const EdgeInsets.only(top: 10),
     height: he.height,
     width: he.width,
     decoration: BoxDecoration(
@@ -46,7 +46,7 @@ Widget restaurantAvailable(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                "Restaurants Near you",
+                "Some Great Choices",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -89,7 +89,7 @@ Widget itemBuilder(Size size, BuildContext context, int index) {
         elevation: 3,
         borderRadius: BorderRadius.circular(18),
         child: Container(
-          height: size.height / 2.5,
+          height: size.height / 2.8,
           width: size.width / 1.1,
           child: Column(
             children: [
@@ -107,7 +107,7 @@ Widget itemBuilder(Size size, BuildContext context, int index) {
                 ),
               ),
               Container(
-                height: size.height / 12,
+                height: size.height / 15,
                 width: size.width / 1.2,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -121,7 +121,7 @@ Widget itemBuilder(Size size, BuildContext context, int index) {
                       ),
                     ),
                     Container(
-                      height: size.height / 25,
+                      height: size.height / 27,
                       width: size.width / 7,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -129,7 +129,7 @@ Widget itemBuilder(Size size, BuildContext context, int index) {
                           double ratingValue = double.tryParse(restaurantList[index].rating) ?? 0;
                           if (ratingValue > 3.5) {
                             return Colors.green;
-                          } else if (ratingValue < 2.0) {
+                          } else if (ratingValue < 3.0) {
                             return Colors.redAccent;
                           } else {
                             return Colors.yellow;
@@ -165,7 +165,7 @@ Widget itemBuilder(Size size, BuildContext context, int index) {
                     Padding(
                       padding: const EdgeInsets.only(right:8.0),
                       child: Text(
-                        "${restaurantList[index].price} for one",
+                        restaurantList[index].price,
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 15,
