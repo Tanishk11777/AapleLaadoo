@@ -1,7 +1,9 @@
+import 'package:AapleLaadoo/constants.dart';
 import 'package:flutter/material.dart';
 
-class MapPage extends StatelessWidget {
-  const MapPage({super.key});
+
+class CartPage extends StatelessWidget {
+  const CartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,34 +27,8 @@ class MapPage extends StatelessWidget {
           ],
         ),
       ),
-      child: Scaffold(
+      child: const Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          elevation: 0,
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          title: Text(
-            'Map',
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall
-                ?.copyWith(color: Colors.black),
-          ),
-        ),
-        body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Column(
-            children: [
-              Text(
-                'Based on your location,\n here are the nearest hotels',
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall
-                    ?.copyWith(color: Colors.black),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

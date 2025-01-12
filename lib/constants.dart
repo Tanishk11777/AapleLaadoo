@@ -2,67 +2,67 @@ import 'package:flutter/material.dart';
 
 const kPrimaryColour= Color(0xFF6F35A5);
 const kPrimaryLightColour= Color(0xFFF1E6FF);
-
 const double defaultPadding=16.0;
 
-
-
-class Restaurants {
-  String imageUrl, title, locations, rating, description,price;
-  int id;
-  //int id;
-
-  Restaurants(
+class MenuItems {
+  String imageUrl, title, category, rating, description,price;
+  int id,p;
+  MenuItems(
       {required this.imageUrl,
         required this.title,
         required this.id,
-        required this.locations,
+        required this.category,
         required this.rating,
         required this.description,
-        required this.price});
+        required this.price,
+        required this.p});
 }
 
-List<Restaurants> restaurantList = [
-  Restaurants(
+List<MenuItems> restaurantList = [
+  MenuItems(
       title: "Methi Laadoo",
       id: 1,
-      locations: "Laadoo",
+      category: "Laadoo",
       description:"Crafted with a powerhouse of ingredients like fenugreek seeds, haleem, coconut crush, dates, jaggery, fox nuts [lotus seeds], poppy seed, cardamom, cashew, almond and desi ghee, this laddu is a blend of traditional goodness and nutritional richness.",
       price: "899/Kg",
+      p: 899,
       rating: "4.4",
       imageUrl:
-      "https://i.postimg.cc/7YrZD9Lm/Whats-App-Image-2024-09-06-at-21-38-56-08401868.jpg"),
-  Restaurants(
+      "https://i.imgur.com/6DKR2bD.jpeg"),
+  MenuItems(
     title: "Rawa Laadoo",
     id: 2,
-    locations: "Laadoo",
+    category: "Laadoo",
     description:
     "Domino's Pizza is a popular pizza restaurant chain that offers a wide selection of delicious pizzas, sides, and desserts. With a focus on fresh, high-quality ingredients, Domino's Pizza creates pizzas that are both flavorful and visually stunning. From traditional pizzas to innovative fusion dishes, the menu at Domino's Pizza offers something for every palate. The restaurant's contemporary yet inviting ambiance, combined with attentive service, make it a popular destination for food lovers in search of a memorable dining experience",
     price: "799/Kg",
+    p: 899,
     rating: "3.8",
     imageUrl:
-    "https://i.postimg.cc/fRwWSbmd/Whats-App-Image-2024-09-06-at-21-38-56-d86662ec.jpg",
+    "https://i.imgur.com/F1a8s8N.jpeg",
   ),
-  Restaurants(
+  MenuItems(
     title: "Boondi Laadoo",
     id: 3,
-    locations: "Laadoo",
+    category: "Laadoo",
     description:
     "Enjoy our Homemade Boondi Ladoo, crafted from premium gram flour, nutmeg-refined oil, and fine sugar. Each ladoo is enriched with crunchy cashews, sweet raisins, and a hint of aromatic cardamom. A perfect blend of traditional flavors, freshly prepared for a wholesome and delightful treat.",
     price: "699/Kg",
+    p: 899,
     rating: "4.1",
     imageUrl:
-    "https://i.postimg.cc/W1XNGPwH/Whats-App-Image-2024-09-06-at-21-38-56-e0ca3b99.jpg",
+    "https://i.imgur.com/Y3TPWJA.jpeg",
   ),
-  Restaurants(
+  MenuItems(
     title: "Churma Laadoo",
     id: 4,
-    locations: "Laadoo",
+    category: "Laadoo",
     description:
     "Savor the goodness of our Homemade Ladoo, made from wholesome wheat flour, desi ghee, and non-refined jaggery. Enriched with cashews, almonds, semolina, and besan, these ladoos are delicately flavored with nutmeg and cardamom for a truly authentic taste. Freshly prepared to offer a rich and nutritious treat for every occasion.",
     price: "699/Kg",
+    p: 899,
     rating: "3.2",
-    imageUrl: "https://i.postimg.cc/zXwXfhb5/Whats-App-Image-2024-09-06-at-21-38-56-e3a590f6.jpg",
+    imageUrl: "https://i.imgur.com/7le7xVH.jpeg",
   ),
 ];
 
@@ -134,39 +134,23 @@ List<FoodItems> foodItemList = [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8-B93ht2FH9tPUu82laGoqUyFqCCblwQ-pA&s"),
 ];
 
-class Restaurants1 {
-  String  title, price;
-
-  Restaurants1(
+class Quantities {
+  String  title;
+  var factor;
+  Quantities(
       {
         required this.title,
-
-        required this.price});
+        required this.factor});
 }
 
-List<Restaurants1> restaurantList1 = [
-  Restaurants1(
+List<Quantities> quantitiesList = [
+  Quantities(
     title: "250g",
-    price: "50",),
-  Restaurants1(
+    factor: 0.27,),
+    Quantities(
     title: "500g",
-    price: "100",),
-  Restaurants1(
+    factor: 0.51,),
+  Quantities(
     title: "1Kg",
-    price: "100",),
-];
-
-class Restaurants6 {
-  String title, price;
-
-  Restaurants6({required this.title, required this.price});
-}
-
-List<Restaurants6> restaurantList6= [
-  Restaurants6(title: "Veg Burger", price: "150"),
-  Restaurants6(title: "Chicken Burger", price: "250"),
-  Restaurants6(title: "Paneer Burger", price: "250"),
-  Restaurants6(title: "Veg Burger", price: "350"),
-  Restaurants6(title: "Chicken Burger", price: "250"),
-  Restaurants6(title: "Paneer Burger", price: "250"),
+    factor: 1,),
 ];

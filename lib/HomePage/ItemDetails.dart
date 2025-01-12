@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:AapleLaadoo/constants.dart';
 import 'dart:math';
+import 'package:AapleLaadoo/HomePage/CartPage.dart';
+
+import 'HomePage.dart';
 
 int value = 0;
 
-class RestaurantDetails extends StatelessWidget {
+class ItemDetails extends StatelessWidget {
   final int index;
-  const RestaurantDetails({super.key, required this.index});
+  const ItemDetails({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -19,26 +22,33 @@ class RestaurantDetails extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           height: 65, // Increase the height here
           child: Center(
-            child: Container(
-              height: 60, // Increase the height of the button container
-              decoration: BoxDecoration(
-                color: kPrimaryColour,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    offset: const Offset(0, 10),
-                    blurRadius: 50,
-                    color: kPrimaryColour.withOpacity(.23),
-                  ),
-                ],
-              ),
-              child: const Center(
-                child: Text(
-                  "Order Now",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontSize: 20,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context); // Close the ItemDetails screen
+                //HomePage.of(context)?.setPage(3);
+              },
+
+              child: Container(
+                height: 60, // Increase the height of the button container
+                decoration: BoxDecoration(
+                  color: kPrimaryColour,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      offset: const Offset(0, 10),
+                      blurRadius: 50,
+                      color: kPrimaryColour.withOpacity(.23),
+                    ),
+                  ],
+                ),
+                child: const Center(
+                  child: Text(
+                    "Add To Cart", // Updated button text
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
               ),
@@ -46,13 +56,13 @@ class RestaurantDetails extends StatelessWidget {
           ),
         ),
       ),
-
       body: MainScreen(
         index: index,
       ),
     );
   }
 }
+
 
 class MainScreen extends StatelessWidget {
   final int index;
@@ -87,7 +97,7 @@ class MainScreen extends StatelessWidget {
             TopImage(index: index),
             Rating(index: index),
             FoodDescription(index: index),
-            MenuItems(index: index),
+            Quantity(index: index),
           ],
         ),
       ),
@@ -96,22 +106,22 @@ class MainScreen extends StatelessWidget {
 }
 
 
-class MenuItems extends StatefulWidget {
-  MenuItems({Key? key, required this.index});
+class Quantity extends StatefulWidget {
+  Quantity({Key? key, required this.index});
 
   final int index;
 
   @override
-  State<MenuItems> createState() => _MenuItemsState();
+  State<Quantity> createState() => _QuantityState();
 }
 
-class _MenuItemsState extends State<MenuItems> {
-  late List<bool> _onClick;
+class _QuantityState extends State<Quantity> {
+  late List<int> quantities;
 
   @override
   void initState() {
     super.initState();
-    _onClick = List.generate(restaurantList1.length, (index) => false);
+    quantities = List.generate(quantitiesList.length, (index) => 0);
   }
 
   @override
@@ -158,7 +168,7 @@ class _MenuItemsState extends State<MenuItems> {
             ],
           ),
         ),
-        for (int i = 0; i < restaurantList1.length; i++)
+        for (int i = 0; i < quantitiesList.length; i++)
           Container(
             padding: const EdgeInsets.only(top: 6, left: 25, right: 25),
             height: size.height * 0.06,
@@ -174,7 +184,7 @@ class _MenuItemsState extends State<MenuItems> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  restaurantList1[i].title,
+                  quantitiesList[i].title,
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 18,
@@ -183,34 +193,38 @@ class _MenuItemsState extends State<MenuItems> {
                 ),
                 Row(
                   children: [
-                    Text(
-                      restaurantList1[i].price,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                     const SizedBox(
                       width: 10,
                     ),
                     IconButton(
                       onPressed: () {
                         setState(() {
-                          _onClick[i] = !_onClick[i];
+                          if (quantities[i] > 0) {
+                            quantities[i]--;
+                          }
                         });
-                        //if (_onClick[i]) {
-                        // Add the item to the cart when the checkbox is checked
-                        // widget.addToCart(restaurantList1[i]);
-                        //}
                       },
-                      icon: _onClick[i]
-                          ? const Icon(
-                        Icons.check_box_outlined,
-                        color: Colors.green,
-                      )
-                          : const Icon(
-                        Icons.check_box_outline_blank,
+                      icon: const Icon(
+                        Icons.remove,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      quantities[i].toString(),
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          quantities[i]++;
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.add,
                         color: Colors.black,
                       ),
                     ),
@@ -223,6 +237,8 @@ class _MenuItemsState extends State<MenuItems> {
     );
   }
 }
+
+
 
 
 
@@ -290,7 +306,7 @@ class _TopImageState extends State<TopImage> {
                   ),
                 ),
                 Text(
-                  restaurantList[widget.index].locations,
+                  restaurantList[widget.index].category,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 15,
@@ -377,47 +393,48 @@ class FoodDescription extends StatefulWidget {
 
 class _FoodDescriptionState extends State<FoodDescription> {
   bool _showFullText = false;
+
   @override
   Widget build(BuildContext context) {
     var he = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
       width: he.width,
-      child: Expanded(
-          child: Column(
-            children: [
-              _showFullText
-                  ? Text(
-                restaurantList[widget.index].description,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                ),
-              )
-                  : Text(
-                restaurantList[widget.index].description,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              _buildButton(),
-            ],
-          )),
+      child: Column(
+        children: [
+          _showFullText
+              ? Text(
+            restaurantList[widget.index].description,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+            ),
+          )
+              : Text(
+            restaurantList[widget.index].description,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          _buildButton(),
+        ],
+      ),
     );
   }
 
   Widget _buildButton() {
     return TextButton(
-        onPressed: () {
-          setState(() {
-            _showFullText = !_showFullText;
-          });
-        },
-        child: Text(_showFullText ? "Show less" : "Show more"));
+      onPressed: () {
+        setState(() {
+          _showFullText = !_showFullText;
+        });
+      },
+      child: Text(_showFullText ? "Show less" : "Show more"),
+    );
   }
 }

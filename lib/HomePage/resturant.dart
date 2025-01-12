@@ -1,4 +1,4 @@
-import 'package:AapleLaadoo/HomePage/RestaurantDetails.dart';
+import 'package:AapleLaadoo/HomePage/ItemDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:AapleLaadoo/constants.dart';
 
@@ -81,7 +81,7 @@ Widget itemBuilder(Size size, BuildContext context, int index) {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => RestaurantDetails(
+                builder: (context) => ItemDetails(
                   index: index,
                 )));
       },
@@ -154,7 +154,7 @@ Widget itemBuilder(Size size, BuildContext context, int index) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      restaurantList[index].locations,
+                      restaurantList[index].category,
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 13,

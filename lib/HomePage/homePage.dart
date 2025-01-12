@@ -2,32 +2,45 @@ import 'package:AapleLaadoo/HomePage/profile1.dart';
 import 'package:AapleLaadoo/HomePage/resturant.dart';
 import 'package:AapleLaadoo/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:badges/badges.dart' as badges;
 
-import 'MapPage.dart';
+
+import 'CartPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  static HomePageState? of(BuildContext context) {
+    return context.findAncestorStateOfType<HomePageState>();
+  }
+
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const MainHomePage(),
     const RestaurantsPage(),
-    const MapPage(),
     const ProfileScreen(),
+    const CartPage(),
   ];
   int _selectedIndex = 0;
+
+  // Method to update the selected page index
+  void setPage(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages.elementAt(_selectedIndex),
+      body: _pages[_selectedIndex],
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         child: SizedBox(
-          //height: 50,
           width: MediaQuery.of(context).size.width,
           child: Padding(
             padding: const EdgeInsets.only(left: 25, right: 25),
@@ -35,41 +48,30 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconBottomBar(
-                    text: "Home",
-                    icon: Icons.home,
-                    selected: _selectedIndex == 0,
-                    onTap: () {
-                      setState(() {
-                        _selectedIndex = 0;
-                      });
-                    }),
+                  text: "Home",
+                  icon: Icons.home,
+                  selected: _selectedIndex == 0,
+                  onTap: () => setPage(0),
+                ),
                 IconBottomBar(
-                    text: "Restaurant",
-                    icon: Icons.restaurant,
-                    selected: _selectedIndex == 1,
-                    onTap: () {
-                      setState(() {
-                        _selectedIndex = 1;
-                      });
-                    }),
+                  text: "Restaurant",
+                  icon: Icons.restaurant,
+                  selected: _selectedIndex == 1,
+                  onTap: () => setPage(1),
+                ),
                 IconBottomBar(
-                    text: "Map",
-                    icon: Icons.map,
-                    selected: _selectedIndex == 2,
-                    onTap: () {
-                      setState(() {
-                        _selectedIndex = 2;
-                      });
-                    }),
-                IconBottomBar(
-                    text: "Profile",
-                    icon: Icons.person,
-                    selected: _selectedIndex == 3,
-                    onTap: () {
-                      setState(() {
-                        _selectedIndex = 3;
-                      });
-                    }),
+                  text: "Profile",
+                  icon: Icons.person,
+                  selected: _selectedIndex == 2,
+                  onTap: () => setPage(2),
+                ),
+                IconWithBadge(
+                  text: "Cart",
+                  icon: Icons.shopping_cart_rounded,
+                  selected: _selectedIndex == 3,
+                  onTap: () => setPage(3),
+                  badgeContent: '5',
+                ),
               ],
             ),
           ),
@@ -78,6 +80,60 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+class IconWithBadge extends StatelessWidget {
+  final String text;
+  final IconData icon;
+  final bool selected;
+  final VoidCallback onTap;
+  final String badgeContent;
+
+  const IconWithBadge({
+    required this.text,
+    required this.icon,
+    required this.selected,
+    required this.onTap,
+    required this.badgeContent,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        IconBottomBar(
+          text: text,
+          icon: icon,
+          selected: selected,
+          onTap: onTap,
+        ),
+        Positioned(
+          right: 0,
+          top: -5, // Adjust this for proper badge positioning
+          child: badges.Badge(
+            badgeContent: Text(
+              badgeContent,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+              ),
+            ),
+            showBadge: int.parse(badgeContent) > 0, // Hide if badge count is 0
+            position: badges.BadgePosition.topEnd(top: 0, end: 0),
+            badgeStyle: const badges.BadgeStyle(
+              badgeColor: Colors.red,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
 
 class MainHomePage extends StatelessWidget {
   const MainHomePage({super.key});
