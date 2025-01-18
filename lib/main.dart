@@ -1,25 +1,19 @@
+import 'package:AapleLaadoo/cart_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:AapleLaadoo/HomePage/homePage.dart';
 import 'package:AapleLaadoo/Login/login_screen.dart';
 import 'package:AapleLaadoo/start/startview.dart';
 import 'package:AapleLaadoo/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:AapleLaadoo/constants.dart';
-import 'package:AapleLaadoo/cart_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(
-    //ChangeNotifierProvider(
-      //create: (context) => CartProvider(),
-      //child:
-      const MyApp(),
-    //),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -27,34 +21,39 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'AapleLaadoo',
-      theme: ThemeData(
-        primaryColor: kPrimaryColour,
-        scaffoldBackgroundColor: Colors.white,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            elevation: 0,
-            backgroundColor: kPrimaryColour,
-            shape: const StadiumBorder(),
-            minimumSize: const Size(double.infinity, 56),
-            maximumSize: const Size(double.infinity, 56),
+    return ChangeNotifierProvider(
+      create: (_)=>CartProvider(),
+      child: Builder(builder: (BuildContext context){
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'AapleLaadoo',
+          theme: ThemeData(
+            primaryColor: kPrimaryColour,
+            scaffoldBackgroundColor: Colors.white,
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                backgroundColor: kPrimaryColour,
+                shape: const StadiumBorder(),
+                minimumSize: const Size(double.infinity, 56),
+                maximumSize: const Size(double.infinity, 56),
+              ),
+            ),
+            inputDecorationTheme: const InputDecorationTheme(
+              filled: true,
+              fillColor: kPrimaryLightColour,
+              prefixIconColor: kPrimaryColour,
+              contentPadding: EdgeInsets.symmetric(
+                  horizontal: defaultPadding, vertical: defaultPadding),
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+              ),
+            ),
           ),
-        ),
-        inputDecorationTheme: const InputDecorationTheme(
-          filled: true,
-          fillColor: kPrimaryLightColour,
-          prefixIconColor: kPrimaryColour,
-          contentPadding: EdgeInsets.symmetric(
-              horizontal: defaultPadding, vertical: defaultPadding),
-          border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.all(Radius.circular(30)),
-          ),
-        ),
-      ),
-      home: const Home(),
+          home: const Home(),
+        );
+      }),
     );
   }
 }

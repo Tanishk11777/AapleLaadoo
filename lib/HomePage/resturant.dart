@@ -102,7 +102,7 @@ Widget itemBuilder(Size size, BuildContext context, int index) {
                     topRight: Radius.circular(18),
                   ),
                   image: DecorationImage(
-                      image: NetworkImage(restaurantList[index].imageUrl),
+                      image: AssetImage(restaurantList[index].imageUrl),
                       fit: BoxFit.cover),
                 ),
               ),

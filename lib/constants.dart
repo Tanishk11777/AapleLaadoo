@@ -28,7 +28,7 @@ List<MenuItems> restaurantList = [
       p: 899,
       rating: "4.4",
       imageUrl:
-      "https://i.imgur.com/6DKR2bD.jpeg"),
+      "assets/r1.jpg"),
   MenuItems(
     title: "Rawa Laadoo",
     id: 2,
@@ -39,7 +39,7 @@ List<MenuItems> restaurantList = [
     p: 899,
     rating: "3.8",
     imageUrl:
-    "https://i.imgur.com/F1a8s8N.jpeg",
+    "assets/r2.jpg",
   ),
   MenuItems(
     title: "Boondi Laadoo",
@@ -51,7 +51,7 @@ List<MenuItems> restaurantList = [
     p: 899,
     rating: "4.1",
     imageUrl:
-    "https://i.imgur.com/Y3TPWJA.jpeg",
+    "assets/r3.jpg",
   ),
   MenuItems(
     title: "Churma Laadoo",
@@ -62,7 +62,7 @@ List<MenuItems> restaurantList = [
     price: "699/Kg",
     p: 899,
     rating: "3.2",
-    imageUrl: "https://i.imgur.com/7le7xVH.jpeg",
+    imageUrl: "assets/r4.jpg",
   ),
 ];
 
