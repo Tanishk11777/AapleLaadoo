@@ -22,7 +22,7 @@ class DBHelper {
   }
   _onCreate (Database db , int version )async{
     await db
-        .execute('CREATE TABLE cart (id INTEGER PRIMARY KEY ,productName TEXT,price INTEGER, qPrice INTEGER, quantity INTEGER, image TEXT )');
+        .execute('CREATE TABLE cart (id INTEGER PRIMARY KEY ,productName TEXT,price INTEGER, qName INTEGER,fec INTEGER, quantity INTEGER, image TEXT )');
   }
   Future<Cart> insert(Cart cart)async{
     print(cart.toMap());

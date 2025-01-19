@@ -1,21 +1,26 @@
 import 'package:AapleLaadoo/HomePage/ItemDetails.dart';
+import 'package:AapleLaadoo/HomePage/worker/db_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:AapleLaadoo/constants.dart';
 
+import 'HomePage.dart';
+
 
 class RestaurantsPage extends StatelessWidget {
-  const RestaurantsPage({super.key});
+  final DBHelper dbHelper;
+  const RestaurantsPage({super.key, required this.dbHelper});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: restaurantAvailable(context),
+      body: restaurantAvailable(context, dbHelper),
     );
   }
 }
 
 Widget restaurantAvailable(
     BuildContext context,
+    DBHelper dbHelper,
     ) {
   var he = MediaQuery.of(context).size;
   return Container(
@@ -66,14 +71,14 @@ Widget restaurantAvailable(
             child: ListView.builder(
                 itemCount: restaurantList.length,
                 itemBuilder: (context, index) {
-                  return itemBuilder(he, context, index);
+                  return itemBuilder(he, context, index, dbHelper);
                 }))
       ],
     ),
   );
 }
 
-Widget itemBuilder(Size size, BuildContext context, int index) {
+Widget itemBuilder(Size size, BuildContext context, int index, DBHelper dbHelper) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 18),
     child: GestureDetector(
@@ -83,6 +88,7 @@ Widget itemBuilder(Size size, BuildContext context, int index) {
             MaterialPageRoute(
                 builder: (context) => ItemDetails(
                   index: index,
+                    dbHelper: dbHelper,
                 )));
       },
       child: Material(

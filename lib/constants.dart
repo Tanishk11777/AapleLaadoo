@@ -136,7 +136,7 @@ List<FoodItems> foodItemList = [
 
 class Quantities {
   String  title;
-  var factor;
+  int factor;
   Quantities(
       {
         required this.title,
@@ -146,11 +146,11 @@ class Quantities {
 List<Quantities> quantitiesList = [
   Quantities(
     title: "250g",
-    factor: 0.27,),
-    Quantities(
+    factor: 27,),
+  Quantities(
     title: "500g",
-    factor: 0.51,),
+    factor: 51,),
   Quantities(
     title: "1Kg",
-    factor: 1,),
+    factor: 100,),
 ];

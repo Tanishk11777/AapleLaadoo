@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:AapleLaadoo/constants.dart';
 import 'dart:math';
-import 'package:AapleLaadoo/HomePage/CartPage.dart';
-
-import 'HomePage.dart';
+import 'package:AapleLaadoo/HomePage/worker/db_helper.dart';
+import 'package:AapleLaadoo/HomePage/worker/cart_model.dart';
 
 int value = 0;
 
 class ItemDetails extends StatelessWidget {
   final int index;
-  const ItemDetails({super.key, required this.index});
+  final DBHelper dbHelper;
+  const ItemDetails({super.key, required this.index, required this.dbHelper});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +24,18 @@ class ItemDetails extends StatelessWidget {
           child: Center(
             child: GestureDetector(
               onTap: () {
-                Navigator.pop(context); // Close the ItemDetails screen
-                //HomePage.of(context)?.setPage(3);
+                dbHelper.insert(
+                    Cart(
+                        id: index,
+                        productName: restaurantList[index].title,
+                        price: restaurantList[index].p,
+                        qName: qName,
+                        fec: fec,
+                        quantity: quantity,
+                        image: restaurantList[index].imageUrl
+                    )
+                );
+                Navigator.pop(context);
               },
 
               child: Container(
@@ -43,7 +53,7 @@ class ItemDetails extends StatelessWidget {
                 ),
                 child: const Center(
                   child: Text(
-                    "Add To Cart", // Updated button text
+                    "Add To Cart",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,

@@ -2,7 +2,8 @@ class Cart{
   late final int? id;
   final String? productName;
   final int? price;
-  final int? qPrice;
+  final String? qName;
+  final int? fec;
   final int? quantity;
   final String? image;
 
@@ -10,7 +11,8 @@ class Cart{
     required this.id ,
     required this.productName,
     required this.price,
-    required this.qPrice,
+    required this.qName,
+    required this.fec,
     required this.quantity,
     required this.image
   });
@@ -18,7 +20,8 @@ class Cart{
       : id = res['id'],
         productName = res["productName"],
         price = res["price"],
-        qPrice = res["qPrice"],
+        qName = res["qName"],
+        fec = res["fec"],
         quantity = res["quantity"],
         image = res["image"];
 
@@ -27,7 +30,8 @@ class Cart{
       'id' : id ,
       'productName' :productName,
       'price' : price,
-      'qPrice' : qPrice,
+      'qName' : qName,
+      'fec' : fec,
       'quantity' : quantity,
       'image' : image,
     };

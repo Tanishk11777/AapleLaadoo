@@ -3,8 +3,13 @@ import 'package:AapleLaadoo/HomePage/resturant.dart';
 import 'package:AapleLaadoo/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:AapleLaadoo/HomePage/worker/db_helper.dart';
+import 'package:provider/provider.dart';
+import 'package:AapleLaadoo/HomePage/ItemDetails.dart';
 
 
+
+import '../cart_provider.dart';
 import 'CartPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,13 +26,14 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const MainHomePage(),
-    const RestaurantsPage(),
+    RestaurantsPage(dbHelper: DBHelper()),
     const ProfileScreen(),
     const CartPage(),
   ];
   int _selectedIndex = 0;
 
-  // Method to update the selected page index
+  final DBHelper dbHelper = DBHelper(); // Ensure dbHelper is non-nullable
+
   void setPage(int index) {
     setState(() {
       _selectedIndex = index;
@@ -36,6 +42,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<CartProvider>(context);
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomAppBar(
@@ -70,7 +77,7 @@ class HomePageState extends State<HomePage> {
                   icon: Icons.shopping_cart_rounded,
                   selected: _selectedIndex == 3,
                   onTap: () => setPage(3),
-                  badgeContent: '5',
+                  badgeContent: '2', // Dynamic badge content
                 ),
               ],
             ),
@@ -80,6 +87,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 }
+
 
 class IconWithBadge extends StatelessWidget {
   final String text;
