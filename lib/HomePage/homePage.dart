@@ -24,15 +24,23 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  final List<Widget> _pages = [
-    const MainHomePage(),
-    RestaurantsPage(dbHelper: DBHelper()),
-    const ProfileScreen(),
-    const CartPage(),
-  ];
+  // Initialize DBHelper as a non-nullable instance
+  final DBHelper dbHelper = DBHelper();
+
+  late final List<Widget> _pages;
   int _selectedIndex = 0;
 
-  final DBHelper dbHelper = DBHelper(); // Ensure dbHelper is non-nullable
+  @override
+  void initState() {
+    super.initState();
+    final cart = Provider.of<CartProvider>(context, listen: false);
+    _pages = [
+      const MainHomePage(),
+      RestaurantsPage(dbHelper: dbHelper, cart: cart),
+      const ProfileScreen(),
+      const CartPage(),
+    ];
+  }
 
   void setPage(int index) {
     setState(() {
@@ -42,7 +50,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<CartProvider>(context);
+    final cart = Provider.of<CartProvider>(context); // Retrieve cart for dynamic UI updates
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomAppBar(
@@ -77,7 +85,7 @@ class HomePageState extends State<HomePage> {
                   icon: Icons.shopping_cart_rounded,
                   selected: _selectedIndex == 3,
                   onTap: () => setPage(3),
-                  badgeContent: '2', // Dynamic badge content
+                  badgeContent: '${cart.getCounter()}', // Dynamic badge content
                 ),
               ],
             ),
@@ -87,6 +95,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 }
+
 
 
 class IconWithBadge extends StatelessWidget {

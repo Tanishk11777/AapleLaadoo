@@ -1,3 +1,4 @@
+import 'package:AapleLaadoo/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:AapleLaadoo/constants.dart';
 import 'dart:math';
@@ -9,10 +10,13 @@ int value = 0;
 class ItemDetails extends StatelessWidget {
   final int index;
   final DBHelper dbHelper;
-  const ItemDetails({super.key, required this.index, required this.dbHelper});
+  final CartProvider cart;
+  const ItemDetails({super.key, required this.index, required this.dbHelper,required this.cart,});
 
   @override
   Widget build(BuildContext context) {
+    List<int> quantities = List.generate(quantitiesList.length, (index) => 0);
+
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: BottomAppBar(
@@ -20,26 +24,44 @@ class ItemDetails extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          height: 65, // Increase the height here
+          height: 65,
           child: Center(
             child: GestureDetector(
               onTap: () {
-                dbHelper.insert(
-                    Cart(
+                // Insert all non-zero quantities into the cart
+                for (int i = 0; i < quantities.length; i++) {
+                  if (quantities[i] > 0) {
+                    int productPrice = restaurantList[index].p;
+                    int fec = quantitiesList[i].factor;
+                    int quantity = quantities[i];
+                    double adjustedPrice = (productPrice * fec * quantity) / 100;
+                    adjustedPrice = double.parse(adjustedPrice.toStringAsFixed(2));
+                    dbHelper.insert(
+                      Cart(
                         id: index,
                         productName: restaurantList[index].title,
                         price: restaurantList[index].p,
-                        qName: qName,
-                        fec: fec,
-                        quantity: quantity,
-                        image: restaurantList[index].imageUrl
-                    )
-                );
+                        qName: quantitiesList[i].title,
+                        fec: quantitiesList[i].factor,
+                        quantity: quantities[i],
+                        image: restaurantList[index].imageUrl,
+                      ),
+                    ).then((value){
+                      print('Product added to cart');
+                    }).onError((error,stackTrace){
+                      print(error.toString());
+                    });
+                    cart.addTotalPrice(adjustedPrice);
+                    cart.addCounter();
+                  }
+                }
+                print('added to cart');
+                print(cart.getCounter());
+                print(cart.getTotalPrice());
                 Navigator.pop(context);
               },
-
               child: Container(
-                height: 60, // Increase the height of the button container
+                height: 60,
                 decoration: BoxDecoration(
                   color: kPrimaryColour,
                   borderRadius: BorderRadius.circular(20),
@@ -66,17 +88,15 @@ class ItemDetails extends StatelessWidget {
           ),
         ),
       ),
-      body: MainScreen(
-        index: index,
-      ),
+      body: MainScreen(index: index, quantities: quantities),
     );
   }
 }
 
-
 class MainScreen extends StatelessWidget {
   final int index;
-  const MainScreen({super.key, required this.index});
+  final List<int> quantities;
+  const MainScreen({super.key, required this.index, required this.quantities});
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +127,7 @@ class MainScreen extends StatelessWidget {
             TopImage(index: index),
             Rating(index: index),
             FoodDescription(index: index),
-            Quantity(index: index),
+            Quantity(index: index, quantities: quantities),
           ],
         ),
       ),
@@ -115,25 +135,17 @@ class MainScreen extends StatelessWidget {
   }
 }
 
-
 class Quantity extends StatefulWidget {
-  Quantity({Key? key, required this.index});
-
   final int index;
+  final List<int> quantities;
+
+  Quantity({Key? key, required this.index, required this.quantities}) : super(key: key);
 
   @override
   State<Quantity> createState() => _QuantityState();
 }
 
 class _QuantityState extends State<Quantity> {
-  late List<int> quantities;
-
-  @override
-  void initState() {
-    super.initState();
-    quantities = List.generate(quantitiesList.length, (index) => 0);
-  }
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -203,14 +215,11 @@ class _QuantityState extends State<Quantity> {
                 ),
                 Row(
                   children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
                     IconButton(
                       onPressed: () {
                         setState(() {
-                          if (quantities[i] > 0) {
-                            quantities[i]--;
+                          if (widget.quantities[i] > 0) {
+                            widget.quantities[i]--;
                           }
                         });
                       },
@@ -220,7 +229,7 @@ class _QuantityState extends State<Quantity> {
                       ),
                     ),
                     Text(
-                      quantities[i].toString(),
+                      widget.quantities[i].toString(),
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 16,
@@ -230,7 +239,7 @@ class _QuantityState extends State<Quantity> {
                     IconButton(
                       onPressed: () {
                         setState(() {
-                          quantities[i]++;
+                          widget.quantities[i]++;
                         });
                       },
                       icon: const Icon(
@@ -247,10 +256,6 @@ class _QuantityState extends State<Quantity> {
     );
   }
 }
-
-
-
-
 
 class TopImage extends StatefulWidget {
   final int index;

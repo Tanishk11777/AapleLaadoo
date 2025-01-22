@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartProvider with ChangeNotifier{
-  int count = 0 ;
+  int count = 0;
   int get counter => count;
 
   double total = 0.0 ;

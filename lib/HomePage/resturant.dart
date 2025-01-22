@@ -1,5 +1,6 @@
 import 'package:AapleLaadoo/HomePage/ItemDetails.dart';
 import 'package:AapleLaadoo/HomePage/worker/db_helper.dart';
+import 'package:AapleLaadoo/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:AapleLaadoo/constants.dart';
 
@@ -8,12 +9,13 @@ import 'HomePage.dart';
 
 class RestaurantsPage extends StatelessWidget {
   final DBHelper dbHelper;
-  const RestaurantsPage({super.key, required this.dbHelper});
+  final CartProvider cart;
+  const RestaurantsPage({super.key, required this.dbHelper, required this.cart});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: restaurantAvailable(context, dbHelper),
+      body: restaurantAvailable(context, dbHelper, cart),
     );
   }
 }
@@ -21,6 +23,7 @@ class RestaurantsPage extends StatelessWidget {
 Widget restaurantAvailable(
     BuildContext context,
     DBHelper dbHelper,
+    CartProvider cart,
     ) {
   var he = MediaQuery.of(context).size;
   return Container(
@@ -71,14 +74,14 @@ Widget restaurantAvailable(
             child: ListView.builder(
                 itemCount: restaurantList.length,
                 itemBuilder: (context, index) {
-                  return itemBuilder(he, context, index, dbHelper);
+                  return itemBuilder(he, context, index, dbHelper,cart);
                 }))
       ],
     ),
   );
 }
 
-Widget itemBuilder(Size size, BuildContext context, int index, DBHelper dbHelper) {
+Widget itemBuilder(Size size, BuildContext context, int index, DBHelper dbHelper,CartProvider cart,) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 18),
     child: GestureDetector(
@@ -88,7 +91,8 @@ Widget itemBuilder(Size size, BuildContext context, int index, DBHelper dbHelper
             MaterialPageRoute(
                 builder: (context) => ItemDetails(
                   index: index,
-                    dbHelper: dbHelper,
+                  dbHelper: dbHelper,
+                  cart: cart,
                 )));
       },
       child: Material(
